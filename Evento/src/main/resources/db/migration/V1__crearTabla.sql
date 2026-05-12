@@ -1,0 +1,8 @@
+CREATE TABLE Evento(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    categoria VARCHAR(100) NOT NULL,
+    fecha DATE NOT NULL,
+    lugar VARCHAR(100) NOT NULL,
+    capacidad INT NOT NULL
+);

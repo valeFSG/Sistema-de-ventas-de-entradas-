@@ -11,33 +11,42 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.venta.eventos.DTO.EventoDTO;
 import com.venta.eventos.Model.Evento;
 import com.venta.eventos.Service.EventoService;
-
 @RestController
-@RequestMapping("/eventos")
+@RequestMapping("/evento")
 public class EventoController {
-    @Autowired
-    private EventoService service;
 
-    @GetMapping
-    public List<Evento> listar(){
-        return service.listar();
-    }
+  @Autowired
+  private EventoService service;
 
-    @PostMapping
-    public Evento guardar(@RequestBody Evento evento){
-        return service.guardar(evento);
-    }
+  @GetMapping
+  public List<Evento> listar() {
+    return service.listar();
+  }
 
-    @GetMapping("/{id}")
-    public Evento buscarPorId(@PathVariable Long id) {
-        return service.buscarPorId(id);
-    }
+  @PostMapping
+  public Evento guardar(@RequestBody EventoDTO dto) {
+    Evento evento = new Evento();
+    evento.setNombre(dto.getNombre());
+    evento.setCategoria(dto.getCategoria());
+    evento.setFecha(dto.getFecha());
+    evento.setLugar(dto.getLugar());
+    evento.setCapacidad(dto.getCapacidad());
+    return service.guardar(evento);
+  }
 
-    @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id){
-        service.eliminar(id);
-    }
+  @GetMapping("/{id}")
+  public Evento buscarPorId(@PathVariable Long id) {
+    return service.buscarPorId(id);
+  }
+
+  @DeleteMapping("/{id}")
+  public void eliminar(@PathVariable Long id) {
+    service.eliminar(id);
+  }
+
+
 
 }
