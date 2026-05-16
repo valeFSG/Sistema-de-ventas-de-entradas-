@@ -1,4 +1,4 @@
-package com.Venta.Recintos.Model;
+package com.venta.ventas.Model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,23 +10,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "recinto")
+@Table(name = "venta")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Recinto {
+public class Venta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nombre;
+    private String cliente;
 
-    private String direccion;
+    private String evento;
 
-    private String ciudad;
+    private Integer cantidadEntradas;
 
-    private Integer capacidad;
+    private Double total;
 
-    private String tipo;
+    private String metodoPago;
 }
