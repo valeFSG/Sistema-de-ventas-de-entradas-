@@ -1,0 +1,10 @@
+CREATE TABLE recinto(
+
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    direccion VARCHAR(255) NOT NULL,
+    ciudad VARCHAR(255) NOT NULL,
+    capacidad INT NOT NULL,
+    tipo VARCHAR(100) NOT NULL
+
+);
