@@ -1,0 +1,12 @@
+CREATE TABLE devolucion(
+
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    cliente VARCHAR(255) NOT NULL,
+    evento VARCHAR(255) NOT NULL,
+    motivo VARCHAR(255) NOT NULL,
+    monto DOUBLE NOT NULL,
+    estado VARCHAR(100) NOT NULL,
+
+    PRIMARY KEY (id)
+
+);
