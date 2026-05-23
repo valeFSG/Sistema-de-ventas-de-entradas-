@@ -1,8 +1,7 @@
 create table ticket (
-    id bigint not null auto_increment,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     cliente varchar(255) not null,
     evento varchar(255) not null,
     precio double not null,
     cantidad integer not null,
-    primary key (id)
 );
