@@ -1,6 +1,4 @@
-package com.Ventas.Artistas.Model;
-
-import java.time.LocalDateTime;
+package com.Venta.Promotores.Model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,18 +11,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "artista")
+@Table(name = "promotor")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Artista {
+public class Promotor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String nombreArtistico;
-    private String especialidad;
-    private String biografia;
-    private LocalDateTime fechaDisponible;
-    private Boolean disponible;
+
+    private String nombre;
+
+    private String correo;
+
+    private String telefono;
+
+    private Double comision;
+
+    private String estado;
 }
