@@ -17,15 +17,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Evento {
+
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String nombre;
+
     private String categoria;
+
     private LocalDate fecha;
+
     private String lugar;
+
     private Integer capacidad;
 
-    
+    private Long recintoId;
 
 }

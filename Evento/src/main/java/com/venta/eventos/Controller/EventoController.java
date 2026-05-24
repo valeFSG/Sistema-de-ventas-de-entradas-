@@ -28,12 +28,16 @@ public class EventoController {
 
   @PostMapping
   public Evento guardar(@RequestBody EventoDTO dto) {
+
     Evento evento = new Evento();
+
     evento.setNombre(dto.getNombre());
     evento.setCategoria(dto.getCategoria());
     evento.setFecha(dto.getFecha());
     evento.setLugar(dto.getLugar());
     evento.setCapacidad(dto.getCapacidad());
+    evento.setRecintoId(dto.getRecintoId());
+
     return service.guardar(evento);
   }
 
