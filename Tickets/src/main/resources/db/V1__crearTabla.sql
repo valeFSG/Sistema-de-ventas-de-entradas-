@@ -4,4 +4,5 @@ create table ticket (
     evento varchar(255) not null,
     precio double not null,
     cantidad integer not null,
+    venta_id BIGINT NOT NULL
 );

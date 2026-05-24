@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.Venta.Tickets.DTO.TicketDTO;
 import com.Venta.Tickets.Model.Ticket;
@@ -18,7 +19,20 @@ public class TicketService {
     @Autowired
     private TicketRepository ticketRepository;
 
+    @Autowired
+    private WebClient webClient;
+
     public Boolean guardarTicket(TicketDTO ticketDTO) {
+
+    Object venta = webClient.get()
+            .uri("http://localhost:8091/ventas/" + ticketDTO.getVentaId())
+            .retrieve()
+            .bodyToMono(Object.class)
+            .block();
+
+    if(venta == null){
+        throw new RuntimeException("Venta no encontrada");
+    }
 
         Ticket ticket = new Ticket();
 
@@ -26,6 +40,7 @@ public class TicketService {
         ticket.setEvento(ticketDTO.getEvento());
         ticket.setPrecio(ticketDTO.getPrecio());
         ticket.setCantidad(ticketDTO.getCantidad());
+        ticket.setVentaId(ticketDTO.getVentaId());
 
         ticketRepository.save(ticket);
 

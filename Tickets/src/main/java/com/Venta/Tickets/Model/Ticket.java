@@ -27,4 +27,6 @@ public class Ticket {
     private Double precio;
 
     private Integer cantidad;
+
+    private Long ventaId;
 }

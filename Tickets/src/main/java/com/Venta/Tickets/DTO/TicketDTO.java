@@ -14,4 +14,5 @@ public class TicketDTO {
     private String evento;
     private Double precio;
     private Integer cantidad;
+    private Long ventaId;
 }
