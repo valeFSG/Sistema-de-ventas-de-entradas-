@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.Venta.Promotores.DTO.PromotorDTO;
 import com.Venta.Promotores.Model.Promotor;
@@ -18,7 +19,22 @@ public class PromotorService {
     @Autowired
     private PromotorRepository promotorRepository;
 
+    @Autowired
+    private WebClient webClientEventos;
+
     public Boolean guardarPromotor(PromotorDTO promotorDTO) {
+
+        Boolean eventoDisponible = webClientEventos.get()
+                .uri("/evento")
+                .retrieve()
+                .bodyToMono(String.class)
+                .map(respuesta -> true)
+                .onErrorReturn(false)
+                .block();
+
+        if (eventoDisponible == false) {
+            return false;
+        }
 
         Promotor promotor = new Promotor();
 

@@ -11,4 +11,9 @@ public class WebClientConfig {
     public WebClient.Builder webClientBuilder() {
         return WebClient.builder();
     }
+
+    @Bean
+    public WebClient webClientEventos(WebClient.Builder builder) {
+        return builder.baseUrl("http://localhost:8081").build();
+    }
 }
