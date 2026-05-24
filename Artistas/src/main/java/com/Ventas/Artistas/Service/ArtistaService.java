@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.Ventas.Artistas.DTO.DTO;
 import com.Ventas.Artistas.Model.Artista;
@@ -18,7 +19,22 @@ public class ArtistaService {
     @Autowired
     private ArtistaRepository artistaRepository;
 
+    @Autowired
+    private WebClient webClientEventos;
+
     public Boolean guardarArtista(DTO artistaDTO) {
+
+        Boolean eventoDisponible = webClientEventos.get()
+                .uri("/evento")
+                .retrieve()
+                .bodyToMono(String.class)
+                .map(respuesta -> true)
+                .onErrorReturn(false)
+                .block();
+
+        if (eventoDisponible == false) {
+            return false;
+        }
 
         Artista artista = new Artista();
 
