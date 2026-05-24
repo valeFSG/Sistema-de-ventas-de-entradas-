@@ -29,4 +29,6 @@ public class Venta {
     private Double total;
 
     private String metodoPago;
+
+    private Long eventoId;
 }

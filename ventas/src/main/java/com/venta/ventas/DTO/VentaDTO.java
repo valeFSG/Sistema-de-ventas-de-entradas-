@@ -11,4 +11,5 @@ public class VentaDTO {
     private Integer cantidadEntradas;
     private Double total;
     private String metodoPago;
+    private Long eventoId;
 }

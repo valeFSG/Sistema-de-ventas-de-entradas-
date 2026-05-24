@@ -48,7 +48,7 @@ public class VentaController {
         Venta v = service.buscarPorId(id);
 
         v.setCliente(venta.getCliente());
-        v.setEvento(venta.getEvento());
+        v.setEventoId(venta.getEventoId());
         v.setCantidadEntradas(venta.getCantidadEntradas());
         v.setTotal(venta.getTotal());
         v.setMetodoPago(venta.getMetodoPago());
