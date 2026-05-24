@@ -11,7 +11,7 @@ public class PreventaDTO {
 
     private Long id;
     private String cliente;
-    private String evento;
+    private Long eventoId;
     private Integer cantidadEntradas;
     private Double total;
     private String estado;

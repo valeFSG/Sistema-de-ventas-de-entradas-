@@ -37,7 +37,7 @@ public class PreventaController {
         Preventa p = service.buscarPorId(id);
 
         p.setCliente(preventa.getCliente());
-        p.setEvento(preventa.getEvento());
+        p.setEventoId(preventa.getEventoId());
         p.setCantidadEntradas(preventa.getCantidadEntradas());
         p.setTotal(preventa.getTotal());
         p.setEstado(preventa.getEstado());

@@ -18,7 +18,7 @@ public class Preventa {
 
     private String cliente;
 
-    private String evento;
+    private Long  eventoId;
 
     private Integer cantidadEntradas;
 
