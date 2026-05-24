@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.venta.Streaming.DTO.StreamingDTO;
 import com.venta.Streaming.Model.Streaming;
@@ -18,7 +19,22 @@ public class StreamingService {
     @Autowired
     private StreamingRepository streamingRepository;
 
+    @Autowired
+    private WebClient webClientEventos;
+
     public Boolean guardarStreaming(StreamingDTO streamingDTO) {
+
+        Boolean eventoDisponible = webClientEventos.get()
+                .uri("/evento")
+                .retrieve()
+                .bodyToMono(String.class)
+                .map(respuesta -> true)
+                .onErrorReturn(false)
+                .block();
+
+        if (eventoDisponible == false) {
+            return false;
+        }
 
         Streaming streaming = new Streaming();
 

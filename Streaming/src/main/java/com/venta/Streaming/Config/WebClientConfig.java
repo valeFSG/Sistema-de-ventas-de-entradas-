@@ -14,6 +14,6 @@ public class WebClientConfig {
 
     @Bean
     public WebClient webClientEventos(WebClient.Builder builder) {
-        return builder.baseUrl("http://localhost:8081/api/v1").build(); // Puerto del microservicio Eventos
+        return builder.baseUrl("http://localhost:8081").build();
     }
 }
