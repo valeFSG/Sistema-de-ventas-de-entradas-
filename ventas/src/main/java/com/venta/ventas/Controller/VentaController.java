@@ -5,8 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.*;
 
+import com.venta.ventas.DTO.VentaDTO;
 import com.venta.ventas.Model.Venta;
 import com.venta.ventas.Service.VentaService;
 
@@ -26,7 +30,8 @@ public class VentaController {
 
     // GET - buscar por id
     @GetMapping("/{id}")
-    public ResponseEntity<Venta> buscarPorId(@PathVariable Long id){
+    public ResponseEntity<Venta> buscarPorId(
+            @PathVariable Long id){
 
         Venta venta = service.buscarPorId(id);
 
@@ -35,7 +40,17 @@ public class VentaController {
 
     // POST - guardar
     @PostMapping
-    public ResponseEntity<Venta> guardar(@RequestBody Venta venta){
+    public ResponseEntity<Venta> guardar(
+            @Valid @RequestBody VentaDTO dto){
+
+        Venta venta = new Venta();
+
+        venta.setCliente(dto.getCliente());
+        venta.setEvento(dto.getEvento());
+        venta.setCantidadEntradas(dto.getCantidadEntradas());
+        venta.setTotal(dto.getTotal());
+        venta.setMetodoPago(dto.getMetodoPago());
+        venta.setEventoId(dto.getEventoId());
 
         Venta ventaGuardada = service.guardar(venta);
 
@@ -48,7 +63,7 @@ public class VentaController {
     @PutMapping("/{id}")
     public ResponseEntity<Venta> actualizar(
             @PathVariable Long id,
-            @RequestBody Venta venta){
+            @Valid @RequestBody VentaDTO dto){
 
         Venta v = service.buscarPorId(id);
 
@@ -56,11 +71,12 @@ public class VentaController {
             return ResponseEntity.notFound().build();
         }
 
-        v.setCliente(venta.getCliente());
-        v.setEventoId(venta.getEventoId());
-        v.setCantidadEntradas(venta.getCantidadEntradas());
-        v.setTotal(venta.getTotal());
-        v.setMetodoPago(venta.getMetodoPago());
+        v.setCliente(dto.getCliente());
+        v.setEvento(dto.getEvento());
+        v.setCantidadEntradas(dto.getCantidadEntradas());
+        v.setTotal(dto.getTotal());
+        v.setMetodoPago(dto.getMetodoPago());
+        v.setEventoId(dto.getEventoId());
 
         Venta actualizada = service.guardar(v);
 
@@ -69,7 +85,8 @@ public class VentaController {
 
     // DELETE - eliminar
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> eliminar(@PathVariable Long id){
+    public ResponseEntity<String> eliminar(
+            @PathVariable Long id){
 
         service.eliminar(id);
 
