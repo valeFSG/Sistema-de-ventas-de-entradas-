@@ -3,14 +3,9 @@ package com.Venta.Recintos.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.Venta.Recintos.Model.Recinto;
 import com.Venta.Recintos.Service.RecintoService;
@@ -23,23 +18,32 @@ public class RecintoController {
     private RecintoService service;
 
     @GetMapping
-    public List<Recinto> listar(){
-        return service.listar();
+    public ResponseEntity<List<Recinto>> listar(){
+
+        return ResponseEntity.ok(service.listar());
     }
 
     @GetMapping("/{id}")
-    public Recinto buscarPorId(@PathVariable Long id){
-        return service.buscarPorId(id);
+    public ResponseEntity<Recinto> buscarPorId(@PathVariable Long id){
+
+        Recinto recinto = service.buscarPorId(id);
+
+        return ResponseEntity.ok(recinto);
     }
 
     @PostMapping
-    public Recinto guardar(@RequestBody Recinto recinto){
-        return service.guardar(recinto);
+    public ResponseEntity<Recinto> guardar(@RequestBody Recinto recinto){
+
+        Recinto recintoGuardado = service.guardar(recinto);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(recintoGuardado);
     }
 
     @PutMapping("/{id}")
-    public Recinto actualizar(@PathVariable Long id,
-                              @RequestBody Recinto recinto){
+    public ResponseEntity<Recinto> actualizar(@PathVariable Long id,
+                                              @RequestBody Recinto recinto){
 
         Recinto r = service.buscarPorId(id);
 
@@ -49,11 +53,16 @@ public class RecintoController {
         r.setCapacidad(recinto.getCapacidad());
         r.setTipo(recinto.getTipo());
 
-        return service.guardar(r);
+        Recinto actualizado = service.guardar(r);
+
+        return ResponseEntity.ok(actualizado);
     }
 
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id){
+    public ResponseEntity<String> eliminar(@PathVariable Long id){
+
         service.eliminar(id);
+
+        return ResponseEntity.ok("Recinto eliminado correctamente");
     }
 }
