@@ -5,8 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.*;
 
+import com.venta.Preventa.DTO.PreventaDTO;
 import com.venta.Preventa.Model.Preventa;
 import com.venta.Preventa.Service.PreventaService;
 
@@ -34,7 +38,15 @@ public class PreventaController {
 
     @PostMapping
     public ResponseEntity<Preventa> guardar(
-            @RequestBody Preventa preventa){
+            @Valid @RequestBody PreventaDTO dto){
+
+        Preventa preventa = new Preventa();
+
+        preventa.setCliente(dto.getCliente());
+        preventa.setEventoId(dto.getEventoId());
+        preventa.setCantidadEntradas(dto.getCantidadEntradas());
+        preventa.setTotal(dto.getTotal());
+        preventa.setEstado(dto.getEstado());
 
         Preventa preventaGuardada = service.guardar(preventa);
 
@@ -46,7 +58,7 @@ public class PreventaController {
     @PutMapping("/{id}")
     public ResponseEntity<Preventa> actualizar(
             @PathVariable Long id,
-            @RequestBody Preventa preventa){
+            @Valid @RequestBody PreventaDTO dto){
 
         Preventa p = service.buscarPorId(id);
 
@@ -54,11 +66,11 @@ public class PreventaController {
             return ResponseEntity.notFound().build();
         }
 
-        p.setCliente(preventa.getCliente());
-        p.setEventoId(preventa.getEventoId());
-        p.setCantidadEntradas(preventa.getCantidadEntradas());
-        p.setTotal(preventa.getTotal());
-        p.setEstado(preventa.getEstado());
+        p.setCliente(dto.getCliente());
+        p.setEventoId(dto.getEventoId());
+        p.setCantidadEntradas(dto.getCantidadEntradas());
+        p.setTotal(dto.getTotal());
+        p.setEstado(dto.getEstado());
 
         Preventa actualizada = service.guardar(p);
 
