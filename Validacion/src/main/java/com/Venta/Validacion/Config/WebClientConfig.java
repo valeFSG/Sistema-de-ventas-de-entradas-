@@ -14,6 +14,6 @@ public class WebClientConfig {
 
     @Bean
     public WebClient webClientTickets(WebClient.Builder builder) {
-        return builder.baseUrl("http://localhost:8082/api/v1").build(); // Puerto del Micro de Tickets
+        return builder.baseUrl("http://localhost:8085/api/v1").build();
     }
 }
