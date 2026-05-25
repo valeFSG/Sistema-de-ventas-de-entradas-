@@ -1,4 +1,3 @@
-
 package com.venta.Devoluciones.Config;
 
 import org.springframework.context.annotation.Bean;
@@ -9,7 +8,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class WebClientConfig {
 
     @Bean
-    public WebClient webClient(){
-        return WebClient.builder().build();
+    public WebClient webClientVentas() {
+        return WebClient.builder()
+                .baseUrl("http://localhost:8091")
+                .build();
     }
 }
