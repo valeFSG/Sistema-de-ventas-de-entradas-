@@ -24,15 +24,15 @@ public class TicketService {
 
     public Boolean guardarTicket(TicketDTO ticketDTO) {
 
-    Object venta = webClient.get()
-            .uri("http://localhost:8091/ventas/" + ticketDTO.getVentaId())
-            .retrieve()
-            .bodyToMono(Object.class)
-            .block();
+        Object venta = webClient.get()
+                .uri("http://localhost:8091/ventas/" + ticketDTO.getVentaId())
+                .retrieve()
+                .bodyToMono(Object.class)
+                .block();
 
-    if(venta == null){
-        throw new RuntimeException("Venta no encontrada");
-    }
+        if (venta == null) {
+            throw new RuntimeException("Venta no encontrada");
+        }
 
         Ticket ticket = new Ticket();
 
@@ -48,15 +48,32 @@ public class TicketService {
     }
 
     public List<Ticket> obtenerPorCliente(String cliente) {
+
         return ticketRepository.findByCliente(cliente);
     }
 
     public List<Ticket> obtenerPorEvento(String evento) {
+
         return ticketRepository.findByEvento(evento);
     }
 
-   
-    public List<Ticket> listarTickets() { 
+    public List<Ticket> listarTickets() {
+
         return ticketRepository.findAll();
+    }
+
+    public Ticket buscarPorId(Long id) {
+
+        return ticketRepository.findById(id).orElse(null);
+    }
+
+    public Ticket guardar(Ticket ticket) {
+
+        return ticketRepository.save(ticket);
+    }
+
+    public void eliminar(Long id) {
+
+        ticketRepository.deleteById(id);
     }
 }

@@ -66,6 +66,10 @@ public class TicketController {
 
         Ticket t = ticketService.buscarPorId(id);
 
+        if(t == null){
+            return ResponseEntity.notFound().build();
+        }
+
         t.setCliente(ticket.getCliente());
         t.setEvento(ticket.getEvento());
         t.setPrecio(ticket.getPrecio());
