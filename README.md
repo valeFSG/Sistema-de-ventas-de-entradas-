@@ -1,10 +1,10 @@
-# 🎟️ Sistema de Venta de Entradas
+#  Sistema de Venta de Entradas
 
 Sistema desarrollado con arquitectura de microservicios utilizando Spring Boot para la gestión de eventos y ventas de entradas.
 
 ---
 
-# 🚀 Tecnologías Utilizadas
+#  Tecnologías Utilizadas
 
 - Java 21
 - Spring Boot
@@ -16,7 +16,7 @@ Sistema desarrollado con arquitectura de microservicios utilizando Spring Boot p
 
 ---
 
-# 📦 Microservicios
+#  Microservicios
 
 - Evento
 - Venta
@@ -31,7 +31,7 @@ Sistema desarrollado con arquitectura de microservicios utilizando Spring Boot p
 
 ---
 
-# 🔌 Puertos
+#  Puertos
 
 | Microservicio | Puerto |
 |---|---|
@@ -49,7 +49,7 @@ Sistema desarrollado con arquitectura de microservicios utilizando Spring Boot p
 
 ---
 
-# 📬 Endpoints Principales
+#  Endpoints Principales
 
 ## Evento
 - GET /evento
@@ -68,7 +68,7 @@ Sistema desarrollado con arquitectura de microservicios utilizando Spring Boot p
 
 ---
 
-# ✅ Funcionalidades
+#  Funcionalidades
 
 - CRUD completo
 - Validaciones con DTO
@@ -77,6 +77,6 @@ Sistema desarrollado con arquitectura de microservicios utilizando Spring Boot p
 
 ---
 
-# 👨‍💻 Autor
+#  Autor
 
 Valentina Santana - Nicol Gonzalez
