@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.*;
 
 import com.venta.eventos.DTO.EventoDTO;
@@ -25,7 +28,8 @@ public class EventoController {
     }
 
     @PostMapping
-    public ResponseEntity<Evento> guardar(@RequestBody EventoDTO dto) {
+    public ResponseEntity<Evento> guardar(
+            @Valid @RequestBody EventoDTO dto) {
 
         Evento evento = new Evento();
 
@@ -58,5 +62,4 @@ public class EventoController {
 
         return ResponseEntity.ok("Evento eliminado correctamente");
     }
-
 }
