@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.*;
 
 import com.Venta.Tickets.DTO.TicketDTO;
@@ -19,7 +22,8 @@ public class TicketController {
     private TicketService ticketService;
 
     @PostMapping("/crear-ticket")
-    public ResponseEntity<String> crearTicket(@RequestBody TicketDTO ticket) {
+    public ResponseEntity<String> crearTicket(
+            @Valid @RequestBody TicketDTO ticket) {
 
         Boolean save = ticketService.guardarTicket(ticket);
 
@@ -62,7 +66,7 @@ public class TicketController {
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<Ticket> actualizarTicket(
             @PathVariable Long id,
-            @RequestBody Ticket ticket){
+            @Valid @RequestBody TicketDTO dto){
 
         Ticket t = ticketService.buscarPorId(id);
 
@@ -70,11 +74,11 @@ public class TicketController {
             return ResponseEntity.notFound().build();
         }
 
-        t.setCliente(ticket.getCliente());
-        t.setEvento(ticket.getEvento());
-        t.setPrecio(ticket.getPrecio());
-        t.setCantidad(ticket.getCantidad());
-        t.setVentaId(ticket.getVentaId());
+        t.setCliente(dto.getCliente());
+        t.setEvento(dto.getEvento());
+        t.setPrecio(dto.getPrecio());
+        t.setCantidad(dto.getCantidad());
+        t.setVentaId(dto.getVentaId());
 
         Ticket actualizado = ticketService.guardar(t);
 
