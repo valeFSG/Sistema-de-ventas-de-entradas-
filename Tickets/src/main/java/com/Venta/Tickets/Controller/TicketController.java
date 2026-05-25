@@ -5,12 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.Venta.Tickets.DTO.TicketDTO;
 import com.Venta.Tickets.Model.Ticket;
@@ -33,21 +28,63 @@ public class TicketController {
                     .body("Error: No se pudo crear el ticket.");
         }
 
-        return ResponseEntity.ok("creado correctamente");
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body("Ticket creado correctamente");
     }
 
     @GetMapping("/buscar-cliente/{cliente}")
-    public List<Ticket> buscarPorCliente(@PathVariable String cliente) {
-        return ticketService.obtenerPorCliente(cliente);
+    public ResponseEntity<List<Ticket>> buscarPorCliente(
+            @PathVariable String cliente) {
+
+        return ResponseEntity.ok(
+                ticketService.obtenerPorCliente(cliente)
+        );
     }
 
     @GetMapping("/buscar-evento/{evento}")
-    public List<Ticket> buscarPorEvento(@PathVariable String evento) {
-        return ticketService.obtenerPorEvento(evento);
+    public ResponseEntity<List<Ticket>> buscarPorEvento(
+            @PathVariable String evento) {
+
+        return ResponseEntity.ok(
+                ticketService.obtenerPorEvento(evento)
+        );
     }
 
     @GetMapping("/listar")
-    public List<Ticket> listarTickets() {
-        return ticketService.listarTickets();
+    public ResponseEntity<List<Ticket>> listarTickets() {
+
+        return ResponseEntity.ok(
+                ticketService.listarTickets()
+        );
+    }
+
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<Ticket> actualizarTicket(
+            @PathVariable Long id,
+            @RequestBody Ticket ticket){
+
+        Ticket t = ticketService.buscarPorId(id);
+
+        t.setCliente(ticket.getCliente());
+        t.setEvento(ticket.getEvento());
+        t.setPrecio(ticket.getPrecio());
+        t.setCantidad(ticket.getCantidad());
+        t.setVentaId(ticket.getVentaId());
+
+        Ticket actualizado = ticketService.guardar(t);
+
+        return ResponseEntity.ok(actualizado);
+    }
+
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<String> eliminarTicket(
+            @PathVariable Long id){
+
+        ticketService.eliminar(id);
+
+        return ResponseEntity.ok(
+                "Ticket eliminado correctamente"
+        );
     }
 }
