@@ -3,14 +3,9 @@ package com.venta.ventas.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.venta.ventas.Model.Venta;
 import com.venta.ventas.Service.VentaService;
@@ -24,28 +19,42 @@ public class VentaController {
 
     // GET - listar
     @GetMapping
-    public List<Venta> listar(){
-        return service.listar();
+    public ResponseEntity<List<Venta>> listar(){
+
+        return ResponseEntity.ok(service.listar());
     }
 
     // GET - buscar por id
     @GetMapping("/{id}")
-    public Venta buscarPorId(@PathVariable Long id){
-        return service.buscarPorId(id);
+    public ResponseEntity<Venta> buscarPorId(@PathVariable Long id){
+
+        Venta venta = service.buscarPorId(id);
+
+        return ResponseEntity.ok(venta);
     }
 
     // POST - guardar
     @PostMapping
-    public Venta guardar(@RequestBody Venta venta){
-        return service.guardar(venta);
+    public ResponseEntity<Venta> guardar(@RequestBody Venta venta){
+
+        Venta ventaGuardada = service.guardar(venta);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ventaGuardada);
     }
 
     // PUT - actualizar
     @PutMapping("/{id}")
-    public Venta actualizar(@PathVariable Long id,
-                            @RequestBody Venta venta){
+    public ResponseEntity<Venta> actualizar(
+            @PathVariable Long id,
+            @RequestBody Venta venta){
 
         Venta v = service.buscarPorId(id);
+
+        if(v == null){
+            return ResponseEntity.notFound().build();
+        }
 
         v.setCliente(venta.getCliente());
         v.setEventoId(venta.getEventoId());
@@ -53,12 +62,19 @@ public class VentaController {
         v.setTotal(venta.getTotal());
         v.setMetodoPago(venta.getMetodoPago());
 
-        return service.guardar(v);
+        Venta actualizada = service.guardar(v);
+
+        return ResponseEntity.ok(actualizada);
     }
 
     // DELETE - eliminar
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id){
+    public ResponseEntity<String> eliminar(@PathVariable Long id){
+
         service.eliminar(id);
+
+        return ResponseEntity.ok(
+                "Venta eliminada correctamente"
+        );
     }
 }
