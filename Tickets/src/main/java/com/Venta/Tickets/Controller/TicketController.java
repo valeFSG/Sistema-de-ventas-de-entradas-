@@ -86,13 +86,20 @@ public class TicketController {
     }
 
     @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<String> eliminarTicket(
-            @PathVariable Long id){
+public ResponseEntity<String> eliminarTicket(
+        @PathVariable Long id){
 
-        ticketService.eliminar(id);
+    Ticket ticket = ticketService.buscarPorId(id);
 
-        return ResponseEntity.ok(
-                "Ticket eliminado correctamente"
-        );
+    if(ticket == null){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Ticket no encontrado");
+    }
+
+    ticketService.eliminar(id);
+
+    return ResponseEntity.ok(
+            "Ticket eliminado correctamente"
+    );
     }
 }

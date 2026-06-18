@@ -22,23 +22,27 @@ public class PreventaController {
     private PreventaService service;
 
     @GetMapping
-    public ResponseEntity<List<Preventa>> listar(){
+    public ResponseEntity<List<Preventa>> listar() {
 
         return ResponseEntity.ok(service.listar());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Preventa> buscarPorId(
-            @PathVariable Long id){
+            @PathVariable Long id) {
 
         Preventa preventa = service.buscarPorId(id);
+
+        if (preventa == null) {
+            return ResponseEntity.notFound().build();
+        }
 
         return ResponseEntity.ok(preventa);
     }
 
     @PostMapping
     public ResponseEntity<Preventa> guardar(
-            @Valid @RequestBody PreventaDTO dto){
+            @Valid @RequestBody PreventaDTO dto) {
 
         Preventa preventa = new Preventa();
 
@@ -58,11 +62,11 @@ public class PreventaController {
     @PutMapping("/{id}")
     public ResponseEntity<Preventa> actualizar(
             @PathVariable Long id,
-            @Valid @RequestBody PreventaDTO dto){
+            @Valid @RequestBody PreventaDTO dto) {
 
         Preventa p = service.buscarPorId(id);
 
-        if(p == null){
+        if (p == null) {
             return ResponseEntity.notFound().build();
         }
 
@@ -79,12 +83,18 @@ public class PreventaController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(
-            @PathVariable Long id){
+            @PathVariable Long id) {
+
+        Preventa preventa = service.buscarPorId(id);
+
+        if (preventa == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Preventa no encontrada");
+        }
 
         service.eliminar(id);
 
         return ResponseEntity.ok(
-                "Preventa eliminada correctamente"
-        );
+                "Preventa eliminada correctamente");
     }
 }
