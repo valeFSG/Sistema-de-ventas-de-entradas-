@@ -27,19 +27,28 @@ public class EventoController {
     @GetMapping
     public ResponseEntity<List<Evento>> listar() {
 
-        log.info("Llamando a listar todos");
+        log.info("INICIO GET /evento - Listando todos los eventos");
 
-        return ResponseEntity.ok(service.listar());
+        List<Evento> eventos = service.listar();
+
+        log.info("FIN GET /evento - Se encontraron {} eventos", eventos.size());
+
+        return ResponseEntity.ok(eventos);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Evento> buscarPorId(@PathVariable Long id) {
 
+        log.info("INICIO GET /evento/{} - Buscando evento por ID", id);
+
         Evento evento = service.buscarPorId(id);
 
         if (evento == null) {
+            log.warn("FIN GET /evento/{} - Evento no encontrado", id);
             return ResponseEntity.notFound().build();
         }
+
+        log.info("FIN GET /evento/{} - Evento encontrado correctamente", id);
 
         return ResponseEntity.ok(evento);
     }
@@ -47,6 +56,8 @@ public class EventoController {
     @PostMapping
     public ResponseEntity<Evento> guardar(
             @Valid @RequestBody EventoDTO dto) {
+
+        log.info("INICIO POST /evento - Creando evento con nombre: {}", dto.getNombre());
 
         Evento evento = new Evento();
 
@@ -59,6 +70,8 @@ public class EventoController {
 
         Evento eventoGuardado = service.guardar(evento);
 
+        log.info("FIN POST /evento - Evento creado correctamente con ID: {}", eventoGuardado.getId());
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(eventoGuardado);
@@ -69,9 +82,12 @@ public class EventoController {
             @PathVariable Long id,
             @Valid @RequestBody EventoDTO dto) {
 
+        log.info("INICIO PUT /evento/{} - Actualizando evento", id);
+
         Evento evento = service.buscarPorId(id);
 
         if (evento == null) {
+            log.warn("FIN PUT /evento/{} - Evento no encontrado, no se pudo actualizar", id);
             return ResponseEntity.notFound().build();
         }
 
@@ -84,20 +100,27 @@ public class EventoController {
 
         Evento actualizado = service.guardar(evento);
 
+        log.info("FIN PUT /evento/{} - Evento actualizado correctamente", id);
+
         return ResponseEntity.ok(actualizado);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable Long id) {
 
+        log.warn("INICIO DELETE /evento/{} - Intentando eliminar evento", id);
+
         Evento evento = service.buscarPorId(id);
 
         if (evento == null) {
+            log.warn("FIN DELETE /evento/{} - Evento no encontrado, no se pudo eliminar", id);
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Evento no encontrado");
         }
 
         service.eliminar(id);
+
+        log.info("FIN DELETE /evento/{} - Evento eliminado correctamente", id);
 
         return ResponseEntity.ok("Evento eliminado correctamente");
     }
